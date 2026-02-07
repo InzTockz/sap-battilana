@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 //TABLA DE DETALLE DRAFTS O DETALLE DE BORRADORES
 @Entity
 //@Table(name = "DRF1", schema = "B1H_BATT_DESA_DE")
-@Table(name = "OCRD", schema = "B1H_BATT_PROD2")
+@Table(name = "DRF1", schema = "B1H_BATT_PROD2")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
