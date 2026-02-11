@@ -15,6 +15,7 @@ public record BorradoresResponse (
         String fullNamesOwner,
         String wddStatus,
         String comments,
+        String docCur,
         Double docTotal
 ){
 }

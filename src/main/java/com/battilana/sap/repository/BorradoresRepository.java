@@ -37,7 +37,8 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "B.ownerCode," +
             "CONCAT(E.firstName, ' ', E.lastName)," +
             "B.wddStatus," +
-            "B.comments," +
+            "B.comments, " +
+            "B.docCur, " +
             "B.docTotal) " +
             "FROM Borradores B " +
             "INNER JOIN Vendedor V ON B.slpCode = V.slpCode " +

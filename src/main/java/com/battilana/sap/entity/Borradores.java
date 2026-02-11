@@ -12,8 +12,8 @@ import java.time.LocalDate;
 
 //TABLA DE DRAFT O BORRADORES
 @Entity
-//@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
-@Table(name = "ODRF", schema = "B1H_BATT_PROD2")
+@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
+//@Table(name = "ODRF", schema = "B1H_BATT_PROD2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -56,7 +56,10 @@ public class Borradores {
     private String wddStatus; // ETAPA DE PROCESO DE APROBACION
 
     @Column(name = "\"Comments\"")
-    private String comments;
+    private String comments; //COMENTARIOS DEL DOCUMENTO
+
+    @Column(name = "\"DocCur\"")
+    private String docCur; // TIPO DE MONERA
 
     @Column(name = "\"DocTotal\"")
     private Double docTotal; // EL PRECIO TOTAL DE TODOS LOS PRODUCTOS DEL DRAFT
