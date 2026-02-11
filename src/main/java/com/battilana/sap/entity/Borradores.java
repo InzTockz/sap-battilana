@@ -12,8 +12,8 @@ import java.time.LocalDate;
 
 //TABLA DE DRAFT O BORRADORES
 @Entity
-@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
-//@Table(name = "ODRF", schema = "B1H_BATT_PROD2")
+//@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
+@Table(name = "ODRF", schema = "B1H_BATT_PROD2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
