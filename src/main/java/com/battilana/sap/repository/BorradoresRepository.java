@@ -39,6 +39,9 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "B.wddStatus," +
             "B.comments, " +
             "B.docCur, " +
+            "B.vatSum, " +
+            "B.vatSumFc, " +
+            "B.docTotalFc, " +
             "B.docTotal) " +
             "FROM Borradores B " +
             "INNER JOIN Vendedor V ON B.slpCode = V.slpCode " +

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 //TABLA DE DETALLE DRAFTS O DETALLE DE BORRADORES
 @Entity
-//@Table(name = "DRF1", schema = "B1H_BATT_DESA_DE")
-@Table(name = "DRF1", schema = "B1H_BATT_PROD2")
+@Table(name = "DRF1", schema = "B1H_BATT_DESA_DE")
+//@Table(name = "DRF1", schema = "B1H_BATT_PROD2")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,6 +35,21 @@ public class DetalleBorradores {
 
     @Column(name = "\"WhsCode\"")
     private String whsCode;
+
+    @Column(name = "\"PriceBefDi\"")
+    private Double priceBefDi; //PRECIO POR UNIDAD
+
+    @Column(name = "\"DiscPrcnt\"")
+    private Double discPrnct; // DESCUENTO ESP.
+
+    @Column(name = "\"Price\"")
+    private Double price; //PRECIO TRAS EL DESCUENTO
+
+    @Column(name = "\"PriceAfVAT\"")
+    private Double priceAfVat; //PRECIO BRUTO DESPUES DEL DESCUENTO
+
+    @Column(name = "\"TotalSumSy\"")
+    private Double totalSumSy; //PRECIO FINAL POR PRODUCTO
 
     @Column(name = "\"DocEntry\"")
     private Integer docEntry;

@@ -16,6 +16,9 @@ public record BorradoresResponse (
         String wddStatus,
         String comments,
         String docCur,
+        Double vatSum,
+        Double vatSumFc,
+        Double docTotalFc,
         Double docTotal
 ){
 }

@@ -12,8 +12,8 @@ import java.time.LocalDate;
 
 //TABLA DE DRAFT O BORRADORES
 @Entity
-//@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
-@Table(name = "ODRF", schema = "B1H_BATT_PROD2")
+@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
+//@Table(name = "ODRF", schema = "B1H_BATT_PROD2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -61,6 +61,15 @@ public class Borradores {
     @Column(name = "\"DocCur\"")
     private String docCur; // TIPO DE MONERA
 
+    @Column(name = "\"VatSum\"")
+    private Double vatSum; // PRECIO DE IMPUESTO EN SOLES
+
+    @Column(name = "\"VatSumFC\"")
+    private Double vatSumFc; // EL PRECIO DE IMPUESTO EN DOLARES
+
+    @Column(name = "\"DocTotalFC\"")
+    private Double docTotalFc; // EL PRECIO TOTAL DE TODOS LOS PRODUCTOS DEL DRAFT EN DOLARES
+
     @Column(name = "\"DocTotal\"")
-    private Double docTotal; // EL PRECIO TOTAL DE TODOS LOS PRODUCTOS DEL DRAFT
+    private Double docTotal; // EL PRECIO TOTAL DE TODOS LOS PRODUCTOS DEL DRAFT EN SOLES
 }
