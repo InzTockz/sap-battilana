@@ -1,7 +1,9 @@
 package com.battilana.sap.controller;
 
+import com.battilana.sap.dto.PreciosEspecialesResponse;
 import com.battilana.sap.dto.StockAlmacenResponse;
 import com.battilana.sap.entity.articulos.Articulos;
+import com.battilana.sap.entity.articulos.PreciosEspeciales;
 import com.battilana.sap.entity.articulos.UnidadMedidaGrupal;
 import com.battilana.sap.entity.articulos.UnidadMedidaMaestra;
 import com.battilana.sap.service.ArticulosService;
@@ -45,5 +47,14 @@ public class ArticuloController {
     @GetMapping("/umm")
     public ResponseEntity<List<UnidadMedidaMaestra>> findAllUmm(){
         return ResponseEntity.status(HttpStatus.OK).body(this.articulosService.findAllUmm());
+    }
+
+    /*SECCION DE PRECIOS ESPECIALES*/
+    @GetMapping("/precios-especiales")
+    public ResponseEntity<PreciosEspecialesResponse> buscarPreciosEspeciales(
+            @RequestParam("cardCode") String cardCode,
+            @RequestParam("itemCode") String itemCode,
+            @RequestParam("priceList") Integer priceList){
+        return ResponseEntity.status(HttpStatus.OK).body(this.articulosService.buscarPreciosEspeciales(cardCode, itemCode, priceList));
     }
 }

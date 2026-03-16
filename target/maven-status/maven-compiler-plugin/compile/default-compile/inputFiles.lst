@@ -5,11 +5,14 @@ E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\controller\Clientes
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\controller\FacturasController.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\controller\VendedorController.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\BorradoresResponse.java
+E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\PreciosEspecialesResponse.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\StockAlmacenResponse.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\Almacenes.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\Articulos.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\Familias.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\GrupoArticulos.java
+E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\ListaPrecios.java
+E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\PreciosEspeciales.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\StockAlmacen.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\UnidadMedidaGrupal.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\entity\articulos\UnidadMedidaMaestra.java
@@ -23,6 +26,8 @@ E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulo
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\ArticulosRepository.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\FamiliasRepository.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\GrupoArticulosRepository.java
+E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\ListaPreciosRepository.java
+E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\PreciosEspecialesRepository.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\StockAlmacenRepository.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\UmgRepository.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\repository\articulos\UmmRepository.java

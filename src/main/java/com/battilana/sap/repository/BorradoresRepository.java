@@ -14,11 +14,11 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
     @Query("SELECT B " +
             "FROM Borradores B " +
             "WHERE B.objType = '17' " +
-            "AND B.docStatus = 'O' " +
+//            "AND B.docStatus = 'O' " +
             "AND (B.canceled = 'N' OR B.canceled is null) " +
             "AND B.slpCode=:idVendedor " +
             "AND (B.createDate BETWEEN :fechaInicio AND :fechaFin) " +
-            "ORDER BY B.createDate DESC")
+            "ORDER BY B.createDate DESC, B.wddStatus DESC")
     List<Borradores> findBorradores(
             @Param("idVendedor") Integer idVendedor,
             @Param("fechaInicio") LocalDate fechaInicio,
@@ -35,7 +35,8 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "B.slpCode," +
             "V.slpName," +
             "B.ownerCode," +
-            "CONCAT(E.firstName, ' ', E.lastName)," +
+            "CONCAT(E.firstName, ' ', E.lastName), " +
+            "B.docStatus," +
             "B.wddStatus," +
             "B.comments, " +
             "B.docCur, " +
@@ -45,7 +46,7 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "B.docTotal) " +
             "FROM Borradores B " +
             "INNER JOIN Vendedor V ON B.slpCode = V.slpCode " +
-            "INNER JOIN Empleados E ON B.ownerCode = E.empId " +
+            "LEFT JOIN Empleados E ON B.ownerCode = E.empId " +
             "WHERE B.docEntry=:docEntryId")
     BorradoresResponse buscarBorradorPorDocEntry(@Param("docEntryId") Integer docEntryId);
 }

@@ -1,13 +1,12 @@
 package com.battilana.sap.service.impl;
 
+import com.battilana.sap.dto.PreciosEspecialesResponse;
 import com.battilana.sap.dto.StockAlmacenResponse;
 import com.battilana.sap.entity.articulos.Articulos;
+import com.battilana.sap.entity.articulos.PreciosEspeciales;
 import com.battilana.sap.entity.articulos.UnidadMedidaGrupal;
 import com.battilana.sap.entity.articulos.UnidadMedidaMaestra;
-import com.battilana.sap.repository.articulos.ArticulosRepository;
-import com.battilana.sap.repository.articulos.StockAlmacenRepository;
-import com.battilana.sap.repository.articulos.UmgRepository;
-import com.battilana.sap.repository.articulos.UmmRepository;
+import com.battilana.sap.repository.articulos.*;
 import com.battilana.sap.service.ArticulosService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +19,14 @@ public class ArticulosServiceImpl implements ArticulosService {
 
     private final ArticulosRepository articulosRepository;
     private final StockAlmacenRepository stockAlmacenRepository;
+    private final PreciosEspecialesRepository preciosEspecialesRepository;
     private final UmmRepository ummRepository;
     private final UmgRepository umgRepository;
 
-    public ArticulosServiceImpl(ArticulosRepository articulosRepository, StockAlmacenRepository stockAlmacenRepository, UmmRepository ummRepository, UmgRepository umgRepository) {
+    public ArticulosServiceImpl(ArticulosRepository articulosRepository, StockAlmacenRepository stockAlmacenRepository, PreciosEspecialesRepository preciosEspecialesRepository, UmmRepository ummRepository, UmgRepository umgRepository) {
         this.articulosRepository = articulosRepository;
         this.stockAlmacenRepository = stockAlmacenRepository;
+        this.preciosEspecialesRepository = preciosEspecialesRepository;
         this.ummRepository = ummRepository;
         this.umgRepository = umgRepository;
     }
@@ -54,5 +55,10 @@ public class ArticulosServiceImpl implements ArticulosService {
     @Override
     public List<UnidadMedidaMaestra> findAllUmm() {
         return this.ummRepository.findAll();
+    }
+
+    @Override
+    public PreciosEspecialesResponse buscarPreciosEspeciales(String cardCode, String itemCode, Integer priceList) {
+        return this.preciosEspecialesRepository.buscarDescuento(cardCode, itemCode, priceList);
     }
 }

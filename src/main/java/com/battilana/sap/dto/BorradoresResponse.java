@@ -13,6 +13,7 @@ public record BorradoresResponse (
         String fullNamesSlp,
         Integer ownerCode,
         String fullNamesOwner,
+        String docStatus,
         String wddStatus,
         String comments,
         String docCur,
