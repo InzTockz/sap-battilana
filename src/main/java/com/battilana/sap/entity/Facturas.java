@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-//@Table(name = "OPCH", schema = "B1H_BATT_PROD2")
-@Table(name = "OPCH", schema = "B1H_BATT_DESA_DE")
+@Table(name = "OPCH", schema = "B1H_BATT_PROD2")
+//@Table(name = "OPCH", schema = "B1H_BATT_DESA_DE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
