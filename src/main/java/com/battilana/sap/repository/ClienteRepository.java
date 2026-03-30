@@ -31,4 +31,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, String> {
             "AND LOWER(C.cardName) LIKE LOWER(CONCAT('%', :cardName, '%')) " +
             "ORDER BY C.slpCode ASC")
     List<Cliente> findClientesPorVendedorYCliente(@Param("idVendedor") Integer idVendedor, @Param("cardName") String cardName, Pageable pageable);
+
+    @Query("SELECT C " +
+            "FROM Cliente C " +
+            "WHERE C.cardCode=:cardCode")
+    Cliente buscarClientePorCardCode(@Param("cardCode") String cardCode);
 }
