@@ -89,12 +89,12 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
     @Query(value = "SELECT T0.\"DocEntry\" AS \"docEntry\", T0.\"CardCode\" AS \"cardCode\", T0.\"CardName\" AS \"cardName\", T2.\"PymntGroup\" AS \"pymntGroup\", T0.\"DocTotalFC\" AS \"docTotalFC\"," +
             "T1.\"CreditLine\" AS \"creditLine\", T3.\"DocDate\" AS \"docDate\", T4.\"FacturasVencidas\" AS \"facturasVencidas\", T4.\"MontoVencido\" AS \"montoVencido\", T4.\"MontoPorVencer\" AS \"montoPorVencer\", " +
             "T4.\"FechaVencida\" AS \"fechaVencida\" " +
-            "FROM B1H_BATT_DESA_DE.\"ODRF\" T0 " +
-            "INNER JOIN B1H_BATT_DESA_DE.\"OCRD\" T1 ON T0.\"CardCode\" = T1.\"CardCode\" " +
-            "INNER JOIN B1H_BATT_DESA_DE.\"OCTG\" T2 ON T1.\"GroupNum\" = T2.\"GroupNum\" " +
+            "FROM B1H_BATT_PROD2.\"ODRF\" T0 " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T1 ON T0.\"CardCode\" = T1.\"CardCode\" " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCTG\" T2 ON T1.\"GroupNum\" = T2.\"GroupNum\" " +
             "LEFT JOIN (" +
             "SELECT * FROM (SELECT O.\"CardCode\", O.\"DocDate\", ROW_NUMBER() OVER (PARTITION BY O.\"CardCode\" ORDER BY O.\"DocDate\" DESC) AS \"Fila\" " +
-            "FROM B1H_BATT_DESA_DE.\"ORCT\" O " +
+            "FROM B1H_BATT_PROD2.\"ORCT\" O " +
             ") X " +
             "WHERE X.\"Fila\" = 1" +
             ") T3 ON T0.\"CardCode\" = T3.\"CardCode\" " +
@@ -104,7 +104,7 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "SUM(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN (FC.\"DocTotalFC\" - FC.\"PaidFC\") ELSE 0 END) AS \"MontoVencido\", " +
             "SUM(CASE WHEN FC.\"DocDueDate\" >= CURRENT_DATE THEN (FC.\"DocTotalFC\" - FC.\"PaidFC\") ELSE 0 END) AS \"MontoPorVencer\", " +
             "MIN(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN FC.\"DocDueDate\" END) AS \"FechaVencida\" " +
-            "FROM B1H_BATT_DESA_DE.\"OINV\" FC " +
+            "FROM B1H_BATT_PROD2.\"OINV\" FC " +
             "WHERE FC.\"DocStatus\" = 'O' " +
             "AND (FC.\"DocTotalFC\" - FC.\"PaidFC\") > 0 " +
             "GROUP BY FC.\"CardCode\" " +
