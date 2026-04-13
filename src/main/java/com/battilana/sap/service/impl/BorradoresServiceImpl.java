@@ -40,6 +40,6 @@ public class BorradoresServiceImpl implements BorradoresService {
 
     @Override
     public List<PedidosDiaroResponse> buscarPedidosDiarios() {
-        return this.borradoresRepository.pedidosDiarios();
+        return this.borradoresRepository.listado();
     }
 }

@@ -114,4 +114,45 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "ORDER BY T3.\"DocDate\" DESC"
             , nativeQuery = true)
     List<PedidosDiaroResponse> pedidosDiarios();
+
+    @Query(value = "SELECT " +
+            "X.\"docEntry\", " +
+            "X.\"cardCode\", " +
+            "X.\"cardName\", " +
+            "X.\"pymntGroup\", " +
+            "X.\"docTotalFC\", " +
+            "X.\"creditLine\", " +
+            "X.\"docDate\", " +
+            "X.\"facturasVencidas\", " +
+            "X.\"montoVencido\", " +
+            "X.\"montoPorVencer\", " +
+            "X.\"fechaVencida\" " +
+            "FROM (SELECT T0.\"DocEntry\" AS \"docEntry\", T0.\"CardCode\" AS \"cardCode\", T0.\"CardName\" AS \"cardName\", T2.\"PymntGroup\" AS \"pymntGroup\", T0.\"DocTotalFC\" AS \"docTotalFC\"," +
+            "T1.\"CreditLine\" AS \"creditLine\", T3.\"DocDate\" AS \"docDate\", T4.\"FacturasVencidas\" AS \"facturasVencidas\", T4.\"MontoVencido\" AS \"montoVencido\", T4.\"MontoPorVencer\" AS \"montoPorVencer\", " +
+            "T4.\"FechaVencida\" AS \"fechaVencida\", ROW_NUMBER() OVER (PARTITION BY T0.\"CardCode\" ORDER BY T0.\"DocTotalFC\" DESC ) AS \"RN\" " +
+            "FROM B1H_BATT_PROD2.\"ODRF\" T0 " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T1 ON T0.\"CardCode\" = T1.\"CardCode\" " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCTG\" T2 ON T1.\"GroupNum\" = T2.\"GroupNum\" " +
+            "LEFT JOIN (" +
+            "SELECT * FROM (SELECT O.\"CardCode\", O.\"DocDate\", ROW_NUMBER() OVER (PARTITION BY O.\"CardCode\" ORDER BY O.\"DocDate\" DESC) AS \"Fila\" " +
+            "FROM B1H_BATT_PROD2.\"ORCT\" O " +
+            ") X " +
+            "WHERE X.\"Fila\" = 1" +
+            ") T3 ON T0.\"CardCode\" = T3.\"CardCode\" " +
+            "LEFT JOIN ( " +
+            "SELECT FC.\"CardCode\", " +
+            "COUNT(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN 1 END) AS \"FacturasVencidas\", " +
+            "SUM(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN (FC.\"DocTotalFC\" - FC.\"PaidFC\") ELSE 0 END) AS \"MontoVencido\", " +
+            "SUM(CASE WHEN FC.\"DocDueDate\" >= CURRENT_DATE THEN (FC.\"DocTotalFC\" - FC.\"PaidFC\") ELSE 0 END) AS \"MontoPorVencer\", " +
+            "MIN(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN FC.\"DocDueDate\" END) AS \"FechaVencida\" " +
+            "FROM B1H_BATT_PROD2.\"OINV\" FC " +
+            "WHERE FC.\"DocStatus\" = 'O' " +
+            "AND (FC.\"DocTotalFC\" - FC.\"PaidFC\") > 0 " +
+            "GROUP BY FC.\"CardCode\" " +
+            ") T4 ON T1.\"CardCode\" = T4.\"CardCode\" " +
+            "WHERE T0.\"WddStatus\" = 'W' " +
+            "AND T1.\"CardCode\" LIKE 'C%' AND T1.\"frozenFor\" = 'N' " +
+            ") X " +
+            "WHERE X.\"RN\" = 1 ", nativeQuery = true)
+    List<PedidosDiaroResponse> listado();
 }
