@@ -127,8 +127,9 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "X.\"montoVencido\", " +
             "X.\"montoPorVencer\", " +
             "X.\"fechaVencida\" " +
-            "FROM (SELECT T0.\"DocEntry\" AS \"docEntry\", T0.\"CardCode\" AS \"cardCode\", T0.\"CardName\" AS \"cardName\", T2.\"PymntGroup\" AS \"pymntGroup\", T0.\"DocTotalFC\" AS \"docTotalFC\"," +
-            "T1.\"CreditLine\" AS \"creditLine\", T3.\"DocDate\" AS \"docDate\", T4.\"FacturasVencidas\" AS \"facturasVencidas\", T4.\"MontoVencido\" AS \"montoVencido\", T4.\"MontoPorVencer\" AS \"montoPorVencer\", " +
+            "FROM (SELECT T0.\"DocEntry\" AS \"docEntry\", T0.\"CardCode\" AS \"cardCode\", T0.\"CardName\" AS \"cardName\", T2.\"PymntGroup\" AS \"pymntGroup\", T0.\"DocTotalFC\" AS \"docTotalFC\", " +
+            "T1.\"CreditLine\" AS \"creditLine\", T3.\"DocDate\" AS \"docDate\", (IFNULL(T4.\"FacturasVencidas\", 0) + IFNULL(T5.\"FacturasVencidas\", 0)) AS \"facturasVencidas\", " +
+            "(IFNULL(T4.\"MontoVencido\", 0) + IFNULL(T5.\"AsientoVencido\", 0)) AS \"montoVencido\", (IFNULL(T4.\"MontoPorVencer\", 0) + IFNULL(T5.\"AsientoPorVencer\", 0)) AS \"montoPorVencer\", " +
             "T4.\"FechaVencida\" AS \"fechaVencida\", ROW_NUMBER() OVER (PARTITION BY T0.\"CardCode\" ORDER BY T0.\"DocTotalFC\" DESC ) AS \"RN\" " +
             "FROM B1H_BATT_PROD2.\"ODRF\" T0 " +
             "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T1 ON T0.\"CardCode\" = T1.\"CardCode\" " +
@@ -139,6 +140,17 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             ") X " +
             "WHERE X.\"Fila\" = 1" +
             ") T3 ON T0.\"CardCode\" = T3.\"CardCode\" " +
+            /* CALCULANDO FACTURAS DE LOS ASIENTOS CONTABLES */
+            "LEFT JOIN ( " +
+            "SELECT A.\"U_SYP_INFOPE01\", COUNT(CASE WHEN A.\"DueDate\"<CURRENT_DATE THEN 1 ELSE NULL END) AS \"FacturasVencidas\", " +
+            "SUM(CASE WHEN A.\"DueDate\" > CURRENT_DATE THEN A.\"BalFcDeb\" ELSE 0 END) AS \"AsientoPorVencer\", " +
+            "SUM(CASE WHEN A.\"DueDate\" < CURRENT_DATE THEN A.\"BalFcDeb\" ELSE 0 END) AS \"AsientoVencido\" " +
+            "FROM B1H_BATT_PROD2.\"JDT1\" A " +
+            "WHERE (A.\"Ref1\" = 'Descuento' OR A.\"Ref1\" = 'Cobranza Libre') " +
+            "AND A.\"BalFcDeb\" > 0 " +
+            "GROUP BY A.\"U_SYP_INFOPE01\" " +
+            ") T5 ON T1.\"CardCode\" = T5.\"U_SYP_INFOPE01\" " +
+            /* FACTURAS VENCIDAS Y MONTOS */
             "LEFT JOIN ( " +
             "SELECT FC.\"CardCode\", " +
             "COUNT(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN 1 END) AS \"FacturasVencidas\", " +

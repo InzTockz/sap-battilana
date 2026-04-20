@@ -5,6 +5,7 @@ import com.battilana.sap.dto.PedidosDiaroResponse;
 import com.battilana.sap.entity.*;
 import com.battilana.sap.repository.*;
 import com.battilana.sap.service.BorradoresService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,21 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BorradoresServiceImpl implements BorradoresService {
 
     private final BorradoresRepository borradoresRepository;
-    private final ClienteRepository clienteRepository;
-    private final FacturasClienteRepository facturasClienteRepository;
-    private final PagosRecibidosRepository pagosRecibidosRepository;
-    private final TerminosPagoRepository terminosPagoRepository;
-
-    public BorradoresServiceImpl(BorradoresRepository borradoresRepository, ClienteRepository clienteRepository, FacturasClienteRepository facturasClienteRepository, PagosRecibidosRepository pagosRecibidosRepository, TerminosPagoRepository terminosPagoRepository) {
-        this.borradoresRepository = borradoresRepository;
-        this.clienteRepository = clienteRepository;
-        this.facturasClienteRepository = facturasClienteRepository;
-        this.pagosRecibidosRepository = pagosRecibidosRepository;
-        this.terminosPagoRepository = terminosPagoRepository;
-    }
 
     @Override
     public List<Borradores> listarDrafts(Integer idVendedor, LocalDate fechaInicio, LocalDate fechaFin) {
