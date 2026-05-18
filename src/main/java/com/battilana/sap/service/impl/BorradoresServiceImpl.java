@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +29,6 @@ public class BorradoresServiceImpl implements BorradoresService {
 
     @Override
     public List<PedidosDiaroResponse> buscarPedidosDiarios() {
-        return this.borradoresRepository.listado();
+        return this.borradoresRepository.pedidosDiarios();
     }
 }
