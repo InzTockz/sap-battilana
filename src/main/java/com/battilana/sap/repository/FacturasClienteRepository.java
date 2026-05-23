@@ -186,8 +186,8 @@ public interface FacturasClienteRepository extends JpaRepository<FacturasCliente
     List<FacturasPorCobrarTopDiezResponse> facturasPorCobrarTopDiez();
 
     @Query(value = "SELECT " +
-            "SUM(CASE WHEN \"dias\" < 0                    THEN \"saldo\" ELSE 0 END) AS \"no_vencido\", " +
-            "SUM(CASE WHEN \"dias\" BETWEEN  0  AND  30    THEN \"saldo\" ELSE 0 END) AS \"vencido_0_30\", " +
+            "SUM(CASE WHEN \"dias\" <= 0                    THEN \"saldo\" ELSE 0 END) AS \"no_vencido\", " +
+            "SUM(CASE WHEN \"dias\" BETWEEN  1  AND  30    THEN \"saldo\" ELSE 0 END) AS \"vencido_0_30\", " +
             "SUM(CASE WHEN \"dias\" BETWEEN  31 AND  45    THEN \"saldo\" ELSE 0 END) AS \"vencido_31_45\", " +
             "SUM(CASE WHEN \"dias\" BETWEEN  46 AND  60    THEN \"saldo\" ELSE 0 END) AS \"vencido_46_60\", " +
             "SUM(CASE WHEN \"dias\" BETWEEN  61 AND  90    THEN \"saldo\" ELSE 0 END) AS \"vencido_61_90\", " +
