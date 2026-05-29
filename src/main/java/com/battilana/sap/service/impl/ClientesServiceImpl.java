@@ -1,5 +1,6 @@
 package com.battilana.sap.service.impl;
 
+import com.battilana.sap.dto.clientes.ClienteDeudorResponse;
 import com.battilana.sap.entity.Cliente;
 import com.battilana.sap.repository.ClienteRepository;
 import com.battilana.sap.service.ClientesService;
@@ -38,5 +39,15 @@ public class ClientesServiceImpl implements ClientesService {
     public List<Cliente> findClientesPorVendedorYCardName(Integer idVendedor, String cardName) {
         Pageable pageable = PageRequest.of(0, 20);
         return this.clienteRepository.findClientesPorVendedorYCliente(idVendedor, cardName, pageable);
+    }
+
+    @Override
+    public List<ClienteDeudorResponse> buscarClientesDeudores() {
+        return this.clienteRepository.buscarClientesDeudores();
+    }
+
+    @Override
+    public List<ClienteDeudorResponse> buscarClientesDeudoresPorVendedor(Integer idVendedor) {
+        return this.clienteRepository.buscarClientesDeudoresPorVendedor(idVendedor);
     }
 }

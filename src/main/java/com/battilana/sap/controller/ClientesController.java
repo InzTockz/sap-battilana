@@ -1,6 +1,7 @@
 package com.battilana.sap.controller;
 
 import ch.qos.logback.core.net.server.Client;
+import com.battilana.sap.dto.clientes.ClienteDeudorResponse;
 import com.battilana.sap.entity.Cliente;
 import com.battilana.sap.service.ClientesService;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,15 @@ public class ClientesController {
     @GetMapping("/vendedor/{idVendedor}/nombres")
     public ResponseEntity<List<Cliente>> listarClientesPorVendedorYCardName(@PathVariable Integer idVendedor, @RequestParam("cardName") String cardName){
         return ResponseEntity.status(HttpStatus.OK).body(this.clientesService.findClientesPorVendedorYCardName(idVendedor, cardName));
+    }
+
+    @GetMapping("/deudor")
+    public ResponseEntity<List<ClienteDeudorResponse>> buscarClientesDeudores(){
+        return ResponseEntity.status(HttpStatus.OK).body(this.clientesService.buscarClientesDeudores());
+    }
+
+    @GetMapping("/deudor/vendedor")
+    public ResponseEntity<List<ClienteDeudorResponse>> buscarClientesDeudoresPorVendedor(@RequestParam("idVendedor") Integer idVendedor){
+        return ResponseEntity.status(HttpStatus.OK).body(this.clientesService.buscarClientesDeudoresPorVendedor(idVendedor));
     }
 }
