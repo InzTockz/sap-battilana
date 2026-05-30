@@ -82,7 +82,7 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "SUM(CASE WHEN A.\"DueDate\" > CURRENT_DATE THEN A.\"BalFcDeb\" ELSE 0 END) AS \"AsientoPorVencer\", " +
             "SUM(CASE WHEN A.\"DueDate\" < CURRENT_DATE THEN A.\"BalFcDeb\" ELSE 0 END) AS \"AsientoVencido\" " +
             "FROM B1H_BATT_PROD2.\"JDT1\" A " +
-            "WHERE (A.\"Ref1\" = 'Descuento' OR A.\"Ref1\" = 'Cobranza Libre') " +
+            "WHERE A.\"Account\" IN ('12142001', '12122002', '12132002', '12342001') " +
             "AND A.\"BalFcDeb\" > 0 " +
             "GROUP BY A.\"U_SYP_INFOPE01\" " +
             ") T5 ON T1.\"CardCode\" = T5.\"U_SYP_INFOPE01\" " +
