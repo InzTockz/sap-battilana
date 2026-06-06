@@ -53,6 +53,8 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
 
     @Query(value = "SELECT " +
             "X.\"docEntry\", " +
+            "X.\"docTime\", " +
+            "X.\"fechaCreacionPedido\", " +
             "X.\"cardCode\", " +
             "X.\"cardName\", " +
             "X.\"pymntGroup\", " +
@@ -63,7 +65,7 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "X.\"montoVencido\", " +
             "X.\"montoPorVencer\", " +
             "X.\"fechaVencida\" " +
-            "FROM (SELECT T0.\"DocEntry\" AS \"docEntry\", T0.\"CardCode\" AS \"cardCode\", T0.\"CardName\" AS \"cardName\", T2.\"PymntGroup\" AS \"pymntGroup\", T0.\"DocTotalFC\" AS \"docTotalFC\", " +
+            "FROM (SELECT T0.\"DocEntry\" AS \"docEntry\", T0.\"DocTime\" AS \"docTime\", T0.\"DocDate\" as \"fechaCreacionPedido\", T0.\"CardCode\" AS \"cardCode\", T0.\"CardName\" AS \"cardName\", T2.\"PymntGroup\" AS \"pymntGroup\", T0.\"DocTotalFC\" AS \"docTotalFC\", " +
             "T1.\"CreditLine\" AS \"creditLine\", T3.\"DocDate\" AS \"docDate\", (IFNULL(T4.\"FacturasVencidas\", 0) + IFNULL(T5.\"FacturasVencidas\", 0)) AS \"facturasVencidas\", " +
             "(IFNULL(T4.\"MontoVencido\", 0) + IFNULL(T5.\"AsientoVencido\", 0)) AS \"montoVencido\", (IFNULL(T4.\"MontoPorVencer\", 0) + IFNULL(T5.\"AsientoPorVencer\", 0)) AS \"montoPorVencer\", " +
             "T4.\"FechaVencida\" AS \"fechaVencida\", ROW_NUMBER() OVER (PARTITION BY T0.\"CardCode\" ORDER BY T0.\"DocTotalFC\" DESC ) AS \"RN\" " +

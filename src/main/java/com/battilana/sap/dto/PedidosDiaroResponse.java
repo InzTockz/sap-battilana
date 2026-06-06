@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 public record PedidosDiaroResponse(
         Integer docEntry,
+        Integer docTime,
+        LocalDateTime fechaCreacionPedido,
         String cardCode,
         String cardName,
         String pymntGroup, //CONDICION DE PAGO
@@ -14,9 +16,7 @@ public record PedidosDiaroResponse(
         LocalDateTime docDate, // ULTIMO PAGO RECIBIDO
         Long facturasVencidas, //NUMERO DE FACTURAS VENCIDAS
         BigDecimal montoVencido, //MONTO TOTAL VENCIDO EN DOLARES
-        //Double cuentaTotalDolares,
         BigDecimal montoPorVencer, //MONTO POR VENCER
         LocalDateTime fechaVencida //FECHA DEL DOCUMENTO MAS VENCIDO
-        //String comentario
 ) {
 }
