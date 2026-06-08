@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public record PedidosDiaroResponse(
         Integer docEntry,
-        Integer docTime,
+        Short docTime,
         LocalDateTime fechaCreacionPedido,
         String cardCode,
         String cardName,
