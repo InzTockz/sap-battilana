@@ -54,47 +54,51 @@ public interface FacturasClienteRepository extends JpaRepository<FacturasCliente
             "ORDER BY \"vendedor\" ASC, \"nombre\" ASC, \"emision\" ASC", nativeQuery = true)
     List<FacturasPorCobrarResponse> buscarFacturasPorCobrar();
 
-    @Query(value = "SELECT * FROM (" +
+    @Query(value = "SELECT * FROM ( " +
             "SELECT " +
-            "T1.\"CardCode\" AS \"ruc\", " +
-            "T1.\"CardName\" AS \"nombre\", " +
-            "T1.\"DocNum\" AS \"documento\"," +
+            "T1.\"CardCode\"                                       AS \"ruc\", " +
+            "T1.\"CardName\"                                       AS \"nombre\", " +
+            "T1.\"DocNum\"                                         AS \"documento\", " +
             "CASE WHEN T1.\"NumAtCard\" IS NOT NULL THEN CONCAT('FA-', T1.\"NumAtCard\") ELSE CONCAT('FA-', CAST(T1.\"DocNum\" AS NVARCHAR)) END AS \"comprobante\", " +
-            "TO_VARCHAR(T1.\"DocDate\",    'YYYY-MM-DD') AS \"emision\", " +
-            "TO_VARCHAR(T1.\"DocDueDate\", 'YYYY-MM-DD') AS \"vencimiento\", " +
+            "TO_VARCHAR(T1.\"DocDate\",    'YYYY-MM-DD')           AS \"emision\", " +
+            "TO_VARCHAR(T1.\"DocDueDate\", 'YYYY-MM-DD')           AS \"vencimiento\", " +
             "CASE WHEN T1.\"DocCur\" = 'S/' THEN 'US$' ELSE T1.\"DocCur\" END AS \"moneda\", " +
             "CASE WHEN T1.\"DocCur\" = 'S/' THEN (T1.\"DocTotal\"/T1.\"SysRate\") ELSE T1.\"DocTotalFC\" END AS \"importe\", " +
             "CASE WHEN T1.\"DocCur\" = 'S/' THEN ((T1.\"DocTotal\"-T1.\"PaidToDate\")/T1.\"SysRate\") ELSE ((T1.\"DocTotalFC\" - IFNULL(T1.\"PaidFC\", 0)) - IFNULL(T1.\"WTSumFC\", 0)) END AS \"saldo\", " +
-            "T2.\"SlpName\" AS \"vendedor\", " +
-            "T3.\"CreditLine\" AS \"lc\" " +
+            "T2.\"SlpName\"                                        AS \"vendedor\", " +
+            "T3.\"CreditLine\"                                     AS \"lc\" " +
             "FROM B1H_BATT_PROD2.\"OINV\" T1 " +
-            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T2 ON T1.\"SlpCode\"  =  T2.\"SlpCode\" " +
+            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T2 ON T1.\"SlpCode\"  = T2.\"SlpCode\" " +
             "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T3 ON T1.\"CardCode\" = T3.\"CardCode\" " +
             "WHERE (T1.\"DocTotal\" - IFNULL(T1.\"PaidToDate\", 0)) > 0 " +
             "AND T1.\"CardCode\" NOT IN ('C40167525') " +
+            "AND T1.\"CardCode\" =:ruc " +
             "UNION ALL " +
             "SELECT " +
-            "T1.\"ShortName\" AS \"ruc\", " +
-            "T2.\"CardName\" AS \"nombre\", " +
-            "T3.\"Number\" AS \"documento\", " +
+            "T1.\"ShortName\"                                      AS \"ruc\", " +
+            "T2.\"CardName\"                                       AS \"nombre\", " +
+            "T3.\"Number\"                                         AS \"documento\", " +
             "CASE WHEN T1.\"Account\" IN ('12142001', '12122002', '12132002') THEN T1.\"Ref2\" ELSE CONCAT('LE-', T1.\"Ref2\") END AS \"comprobante\", " +
-            "TO_VARCHAR(T1.\"RefDate\", 'YYYY-MM-DD') AS \"emision\", " +
-            "TO_VARCHAR(T1.\"DueDate\", 'YYYY-MM-DD') AS \"vencimiento\", " +
-            "T1.\"FCCurrency\" AS \"moneda\", " +
-            "T1.\"FCDebit\" AS \"importe\", " +
-            "T1.\"BalFcDeb\" AS \"saldo\", " +
-            "T4.\"SlpName\" AS \"vendedor\", " +
-            "T2.\"CreditLine\" AS \"lc\" " +
+            "TO_VARCHAR(T1.\"RefDate\", 'YYYY-MM-DD')              AS \"emision\", " +
+            "TO_VARCHAR(T1.\"DueDate\", 'YYYY-MM-DD')              AS \"vencimiento\", " +
+            "T1.\"FCCurrency\"                                     AS \"moneda\", " +
+            "T1.\"FCDebit\"                                        AS \"importe\", " +
+            "T1.\"BalFcDeb\"                                       AS \"saldo\", " +
+            "T4.\"SlpName\"                                        AS \"vendedor\", " +
+            "T2.\"CreditLine\"                                     AS \"lc\" " +
             "FROM B1H_BATT_PROD2.\"JDT1\" T1 " +
             "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T2 ON T1.\"ShortName\" = T2.\"CardCode\" " +
             "INNER JOIN B1H_BATT_PROD2.\"OJDT\" T3 ON T1.\"TransId\"   = T3.\"TransId\" " +
-            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T4 ON T2.\"SlpCode\"   = T4.\"SlpCode\" " +
+            "LEFT JOIN B1H_BATT_PROD2.\"OINV\" INV ON T1.\"ShortName\" = INV.\"CardCode\" " +
+            "AND SUBSTRING(INV.\"NumAtCard\", LOCATE(INV.\"NumAtCard\", '-') + 1) " +
+            "= SUBSTRING(T1.\"Ref2\", LOCATE(T1.\"Ref2\", '-') + 1) " +
+            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T4 ON IFNULL(INV.\"SlpCode\", T2.\"SlpCode\") = T4.\"SlpCode\" " +
             "WHERE T1.\"Account\" IN ('12142001', '12122002', '12132002', '12342001') " +
-            "AND T1.\"BalFcDeb\" > 0 " +
+            "AND T1.\"BalFcDeb\" > 0  " +
             "AND T1.\"MthDate\" IS NULL " +
+            "AND T1.\"ShortName\" =:ruc " +
             ") AS \"SALDOS_UNIFICADOS\" " +
-            "WHERE \"ruc\"=:ruc " +
-            "ORDER BY \"vendedor\" ASC, \"nombre\" ASC, \"emision\" ASC", nativeQuery = true)
+            "ORDER BY \"vendedor\" ASC, \"emision\" ASC", nativeQuery = true)
     List<FacturasPorCobrarResponse> buscarFacturasPorCobrarPorCliente(@Param("ruc") String ruc);
 
     @Query(value = "SELECT * FROM (" +
@@ -132,14 +136,66 @@ public interface FacturasClienteRepository extends JpaRepository<FacturasCliente
             "FROM B1H_BATT_PROD2.\"JDT1\" T1 " +
             "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T2 ON T1.\"ShortName\" = T2.\"CardCode\" " +
             "INNER JOIN B1H_BATT_PROD2.\"OJDT\" T3 ON T1.\"TransId\"   = T3.\"TransId\" " +
-            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T4 ON T2.\"SlpCode\"   = T4.\"SlpCode\" " +
+            "LEFT JOIN B1H_BATT_PROD2.\"OINV\" INV ON T1.\"ShortName\" = INV.\"CardCode\" " +
+            "AND SUBSTRING(INV.\"NumAtCard\", LOCATE(INV.\"NumAtCard\", '-') + 1) " +
+            "= SUBSTRING(T1.\"Ref2\", LOCATE(T1.\"Ref2\", '-') + 1) " +
+            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T4 ON IFNULL(INV.\"SlpCode\", T2.\"SlpCode\") = T4.\"SlpCode\" " +
             "WHERE T1.\"Account\" IN ('12142001', '12122002', '12132002', '12342001') " +
             "AND T1.\"BalFcDeb\" > 0 " +
             "AND T1.\"MthDate\" IS NULL " +
-            "AND T4.\"SlpCode\"=:slpCode" +
+            "AND IFNULL(INV.\"SlpCode\", T2.\"SlpCode\") =:slpCode " +
             ") AS \"SALDOS_UNIFICADOS\" " +
             "ORDER BY \"vendedor\" ASC, \"nombre\" ASC, \"emision\" ASC", nativeQuery = true)
     List<FacturasPorCobrarResponse> buscarFacturasPorCobrarPorVendedor(@Param("slpCode") Integer slpCode);
+
+    @Query(value = "SELECT * FROM (" +
+            "SELECT " +
+            "T1.\"CardCode\" AS \"ruc\", " +
+            "T1.\"CardName\" AS \"nombre\", " +
+            "T1.\"DocNum\" AS \"documento\"," +
+            "CASE WHEN T1.\"NumAtCard\" IS NOT NULL THEN CONCAT('FA-', T1.\"NumAtCard\") ELSE CONCAT('FA-', CAST(T1.\"DocNum\" AS NVARCHAR)) END AS \"comprobante\", " +
+            "TO_VARCHAR(T1.\"DocDate\",    'YYYY-MM-DD') AS \"emision\", " +
+            "TO_VARCHAR(T1.\"DocDueDate\", 'YYYY-MM-DD') AS \"vencimiento\", " +
+            "CASE WHEN T1.\"DocCur\" = 'S/' THEN 'US$' ELSE T1.\"DocCur\" END AS \"moneda\", " +
+            "CASE WHEN T1.\"DocCur\" = 'S/' THEN (T1.\"DocTotal\"/T1.\"SysRate\") ELSE T1.\"DocTotalFC\" END AS \"importe\", " +
+            "CASE WHEN T1.\"DocCur\" = 'S/' THEN ((T1.\"DocTotal\"-T1.\"PaidToDate\")/T1.\"SysRate\") ELSE ((T1.\"DocTotalFC\" - IFNULL(T1.\"PaidFC\", 0)) - IFNULL(T1.\"WTSumFC\", 0)) END AS \"saldo\", " +
+            "T2.\"SlpName\" AS \"vendedor\", " +
+            "T3.\"CreditLine\" AS \"lc\" " +
+            "FROM B1H_BATT_PROD2.\"OINV\" T1 " +
+            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T2 ON T1.\"SlpCode\"  =  T2.\"SlpCode\" " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T3 ON T1.\"CardCode\" = T3.\"CardCode\" " +
+            "WHERE (T1.\"DocTotal\" - IFNULL(T1.\"PaidToDate\", 0)) > 0 " +
+            "AND T1.\"CardCode\" NOT IN ('C40167525') " +
+            "AND T1.\"SlpCode\" =:slpCode " +
+            "AND T1.\"CardCode\" =:ruc " +
+            "UNION ALL " +
+            "SELECT " +
+            "T1.\"ShortName\" AS \"ruc\", " +
+            "T2.\"CardName\" AS \"nombre\", " +
+            "T3.\"Number\" AS \"documento\", " +
+            "CASE WHEN T1.\"Account\" IN ('12142001', '12122002', '12132002') THEN T1.\"Ref2\" ELSE CONCAT('LE-', T1.\"Ref2\") END AS \"comprobante\", " +
+            "TO_VARCHAR(T1.\"RefDate\", 'YYYY-MM-DD') AS \"emision\", " +
+            "TO_VARCHAR(T1.\"DueDate\", 'YYYY-MM-DD') AS \"vencimiento\", " +
+            "T1.\"FCCurrency\" AS \"moneda\", " +
+            "T1.\"FCDebit\" AS \"importe\", " +
+            "T1.\"BalFcDeb\" AS \"saldo\", " +
+            "T4.\"SlpName\" AS \"vendedor\", " +
+            "T2.\"CreditLine\" AS \"lc\" " +
+            "FROM B1H_BATT_PROD2.\"JDT1\" T1 " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T2 ON T1.\"ShortName\" = T2.\"CardCode\" " +
+            "INNER JOIN B1H_BATT_PROD2.\"OJDT\" T3 ON T1.\"TransId\"   = T3.\"TransId\" " +
+            "LEFT JOIN B1H_BATT_PROD2.\"OINV\" INV ON T1.\"ShortName\" = INV.\"CardCode\" " +
+            "AND SUBSTRING(INV.\"NumAtCard\", LOCATE(INV.\"NumAtCard\", '-') + 1) " +
+            "= SUBSTRING(T1.\"Ref2\", LOCATE(T1.\"Ref2\", '-') + 1) " +
+            "INNER JOIN B1H_BATT_PROD2.\"OSLP\" T4 ON IFNULL(INV.\"SlpCode\", T2.\"SlpCode\") = T4.\"SlpCode\" " +
+            "WHERE T1.\"Account\" IN ('12142001', '12122002', '12132002', '12342001') " +
+            "AND T1.\"BalFcDeb\" > 0 " +
+            "AND T1.\"MthDate\" IS NULL " +
+            "AND IFNULL(INV.\"SlpCode\", T2.\"SlpCode\") =:slpCode " +
+            "AND T1.\"ShortName\" =:ruc" +
+            ") AS \"SALDOS_UNIFICADOS\" " +
+            "ORDER BY \"vendedor\" ASC, \"nombre\" ASC, \"emision\" ASC", nativeQuery = true)
+    List<FacturasPorCobrarResponse> buscarFacturasPorVendedorYCliente(@Param("slpCode") Integer slpCode, @Param("ruc") String ruc);
 
     @Query(value = "SELECT \"SALDOS_UNIFICADOS\".\"nombre\", SUM(\"SALDOS_UNIFICADOS\".\"saldo\") FROM (" +
             "SELECT " +

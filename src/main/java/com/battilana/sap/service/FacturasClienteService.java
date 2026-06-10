@@ -11,6 +11,7 @@ public interface FacturasClienteService {
     List<FacturasPorCobrarResponse> buscarFacturasPorCobrar();
     List<FacturasPorCobrarResponse> buscarFacturasPorCobrarPorCliente(String ruc);
     List<FacturasPorCobrarResponse> buscarFacturasPorCobrarPorVendedor(Integer slpCode);
+    List<FacturasPorCobrarResponse> buscarFacturasPorVendedorYCliente(Integer slpCode, String ruc);
     List<FacturasPorCobrarTopDiezResponse> facturasPorCobrarTopDiez();
     List<ResumenCarteraResponse> resumenCartera();
 }
