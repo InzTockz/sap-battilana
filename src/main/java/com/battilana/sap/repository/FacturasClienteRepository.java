@@ -269,7 +269,7 @@ public interface FacturasClienteRepository extends JpaRepository<FacturasCliente
             "CASE WHEN T1.\"Account\" IN ('12142001', '12122002', '12132002') THEN T1.\"Ref2\" ELSE CONCAT('LE-', T1.\"Ref2\") END AS \"comprobante\", " +
             "TO_VARCHAR(T1.\"RefDate\", 'YYYY-MM-DD') AS \"emision\", " +
             "TO_VARCHAR(T1.\"DueDate\", 'YYYY-MM-DD') AS \"vencimiento\", " +
-            "DAYS_BETWEEN(T1.\"DocDueDate\", CURRENT_DATE)         AS \"diasVencido\"," +
+            "DAYS_BETWEEN(T1.\"DueDate\", CURRENT_DATE)         AS \"diasVencido\", " +
             "T1.\"FCCurrency\" AS \"moneda\", " +
             "T1.\"FCDebit\" AS \"importe\", " +
             "T1.\"BalFcDeb\" AS \"saldo\", " +

@@ -2,6 +2,7 @@ package com.battilana.sap.service.impl;
 
 import com.battilana.sap.dto.FacturasPorCobrarResponse;
 import com.battilana.sap.dto.FacturasPorCobrarTopDiezResponse;
+import com.battilana.sap.dto.facturas.FacturasPorCobrarTopDiezVencidosResponse;
 import com.battilana.sap.dto.facturas.ResumenCarteraResponse;
 import com.battilana.sap.repository.FacturasClienteRepository;
 import com.battilana.sap.service.FacturasClienteService;
@@ -39,6 +40,11 @@ public class FacturasClienteServiceImpl implements FacturasClienteService {
     @Override
     public List<FacturasPorCobrarTopDiezResponse> facturasPorCobrarTopDiez() {
         return this.facturasClienteRepository.facturasPorCobrarTopDiez();
+    }
+
+    @Override
+    public List<FacturasPorCobrarTopDiezVencidosResponse> facturasPorCobrarTopDiezMasVencidas() {
+        return this.facturasClienteRepository.facturasPorCobrarTopDiezMasVencidas();
     }
 
     @Override
