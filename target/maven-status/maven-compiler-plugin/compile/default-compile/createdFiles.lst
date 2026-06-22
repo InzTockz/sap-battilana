@@ -60,5 +60,6 @@ com\battilana\sap\repository\BorradoresRepository.class
 com\battilana\sap\entity\FacturasCliente.class
 com\battilana\sap\repository\articulos\AlmacenesRepository.class
 com\battilana\sap\service\FacturasClienteService.class
+com\battilana\sap\dto\facturas\FacturasPorCobrarTopDiezVencidosResponse.class
 com\battilana\sap\service\BorradoresService.class
 com\battilana\sap\service\ClientesService.class

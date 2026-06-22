@@ -7,6 +7,7 @@ E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\controller\Facturas
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\controller\VendedorController.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\BorradoresResponse.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\clientes\ClienteDeudorResponse.java
+E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\facturas\FacturasPorCobrarTopDiezVencidosResponse.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\facturas\ResumenCarteraResponse.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\FacturasPorCobrarResponse.java
 E:\PROGRAMACION\PROYECTO\sap\src\main\java\com\battilana\sap\dto\FacturasPorCobrarTopDiezResponse.java
