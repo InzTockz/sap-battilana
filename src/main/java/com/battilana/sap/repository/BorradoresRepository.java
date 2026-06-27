@@ -12,6 +12,15 @@ import java.util.List;
 
 public interface BorradoresRepository extends JpaRepository<Borradores, Integer> {
 
+    /**
+     RECORDAR QUE EL TABLERO DE LEYENDA PARA LOS ESTADOS DE LOS PEDIDOS DIARIOS SON:
+     ================================================================================
+     Estado = Cerrado (C) y Status de Autorizacion = Sln (-)  => Significa que el pedido ya cumplio con todas las fases.
+     Estado = Abierto (O) y Status de Autorizacion = Cancelado (C) => Significa que el pedido fue cancelado.
+     Estado = Abierto (O) y Status de Autorizacion = Sln (-) => Significa que el pedido se encuentra a la espera de ser aceptado por el personal de facturacion.
+     Estado = Abierto (O) y Status de Autorizacion = Autorizado (Y) => Significa que el pedido fue aprobado por algun Gerente.
+     */
+
     @Query("SELECT B " +
             "FROM Borradores B " +
             "WHERE B.objType = '17' " +
