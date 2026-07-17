@@ -101,7 +101,7 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             "LEFT JOIN ( " +
             "SELECT FC.\"CardCode\", " +
             "COUNT(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN 1 END) AS \"FacturasVencidas\", " +
-            "SUM(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN (FC.\"DocTotalFC\" - FC.\"PaidFC\") ELSE 0 END) AS \"MontoVencido\", " +
+            "SUM(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN ((FC.\"DocTotalFC\" - FC.\"PaidFC\") - FC.\"WTSumFC\") ELSE 0 END) AS \"MontoVencido\", " +
             "SUM(CASE WHEN FC.\"DocDueDate\" >= CURRENT_DATE THEN (FC.\"DocTotalFC\" - FC.\"PaidFC\") ELSE 0 END) AS \"MontoPorVencer\", " +
             "MIN(CASE WHEN FC.\"DocDueDate\" < CURRENT_DATE THEN FC.\"DocDueDate\" END) AS \"FechaVencida\" " +
             "FROM B1H_BATT_PROD2.\"OINV\" FC " +
