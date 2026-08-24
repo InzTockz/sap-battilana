@@ -2,6 +2,7 @@ package com.battilana.sap.controller;
 
 import com.battilana.sap.dto.BorradoresResponse;
 import com.battilana.sap.dto.PedidosDiaroResponse;
+import com.battilana.sap.dto.borradores.BorradoresAprobadosResponse;
 import com.battilana.sap.entity.Borradores;
 import com.battilana.sap.entity.DetalleBorradores;
 import com.battilana.sap.service.BorradoresService;
@@ -44,5 +45,10 @@ public class BorradoresController {
     @GetMapping("/pedidos-diario")
     public ResponseEntity<List<PedidosDiaroResponse>> buscarPedidosDiarios(){
         return ResponseEntity.status(HttpStatus.OK).body(this.borradoresService.buscarPedidosDiarios());
+    }
+
+    @GetMapping("/aprobados")
+    public ResponseEntity<List<BorradoresAprobadosResponse>> listadoBorradoresAprobados(){
+        return ResponseEntity.ok(this.borradoresService.listadoBorradoresAprobados());
     }
 }

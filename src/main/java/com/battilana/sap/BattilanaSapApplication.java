@@ -9,5 +9,4 @@ public class BattilanaSapApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BattilanaSapApplication.class, args);
 	}
-
 }

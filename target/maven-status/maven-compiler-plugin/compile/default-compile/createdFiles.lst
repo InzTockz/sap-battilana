@@ -1,4 +1,5 @@
 com\battilana\sap\entity\FacturasProveedor.class
+com\battilana\sap\dto\borradores\BorradoresAprobadosResponse.class
 com\battilana\sap\dto\PreciosEspecialesResponse.class
 com\battilana\sap\entity\PagosRecibidos.class
 com\battilana\sap\entity\Borradores.class

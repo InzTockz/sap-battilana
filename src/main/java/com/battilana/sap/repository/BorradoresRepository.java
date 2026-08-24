@@ -2,6 +2,7 @@ package com.battilana.sap.repository;
 
 import com.battilana.sap.dto.BorradoresResponse;
 import com.battilana.sap.dto.PedidosDiaroResponse;
+import com.battilana.sap.dto.borradores.BorradoresAprobadosResponse;
 import com.battilana.sap.entity.Borradores;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -114,4 +115,10 @@ public interface BorradoresRepository extends JpaRepository<Borradores, Integer>
             ") X " +
             "WHERE X.\"RN\" = 1 ", nativeQuery = true)
     List<PedidosDiaroResponse> pedidosDiarios();
+
+    @Query("SELECT B.docEntry, B.objType, B.docDate, B.cardCode, B.cardName, B.docTotal, B.docTotalFc," +
+            "B.comments, B.userSign " +
+            "FROM Borradores B " +
+            "WHERE B.wddStatus = 'Y' AND B.objType='17'")
+    List<BorradoresAprobadosResponse> listadoBorradoresAprobados();
 }

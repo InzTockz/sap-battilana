@@ -2,6 +2,7 @@ package com.battilana.sap.service;
 
 import com.battilana.sap.dto.BorradoresResponse;
 import com.battilana.sap.dto.PedidosDiaroResponse;
+import com.battilana.sap.dto.borradores.BorradoresAprobadosResponse;
 import com.battilana.sap.entity.Borradores;
 
 import java.time.LocalDate;
@@ -12,4 +13,6 @@ public interface BorradoresService {
     BorradoresResponse buscarDraftPorDocEntry(Integer docEntryId);
 
     List<PedidosDiaroResponse> buscarPedidosDiarios();
+
+    List<BorradoresAprobadosResponse> listadoBorradoresAprobados();
 }

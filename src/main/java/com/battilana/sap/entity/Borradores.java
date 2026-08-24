@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 //TABLA DE DRAFT O BORRADORES
 @Entity
-//@Table(name = "ODRF", schema = "B1H_BATT_DESA_DE")
+//@Table(name = "ODRF", schema = "B1H_BATT_PRUCOM0726")
 @Table(name = "ODRF", schema = "B1H_BATT_PROD2")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -72,4 +72,7 @@ public class Borradores {
 
     @Column(name = "\"DocTotal\"")
     private Double docTotal; // EL PRECIO TOTAL DE TODOS LOS PRODUCTOS DEL DRAFT EN SOLES
+
+    @Column(name = "\"UserSign\"")
+    private Integer userSign;
 }

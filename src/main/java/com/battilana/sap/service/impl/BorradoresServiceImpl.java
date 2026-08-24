@@ -2,6 +2,7 @@ package com.battilana.sap.service.impl;
 
 import com.battilana.sap.dto.BorradoresResponse;
 import com.battilana.sap.dto.PedidosDiaroResponse;
+import com.battilana.sap.dto.borradores.BorradoresAprobadosResponse;
 import com.battilana.sap.entity.*;
 import com.battilana.sap.repository.*;
 import com.battilana.sap.service.BorradoresService;
@@ -30,5 +31,10 @@ public class BorradoresServiceImpl implements BorradoresService {
     @Override
     public List<PedidosDiaroResponse> buscarPedidosDiarios() {
         return this.borradoresRepository.pedidosDiarios();
+    }
+
+    @Override
+    public List<BorradoresAprobadosResponse> listadoBorradoresAprobados() {
+        return this.borradoresRepository.listadoBorradoresAprobados();
     }
 }
