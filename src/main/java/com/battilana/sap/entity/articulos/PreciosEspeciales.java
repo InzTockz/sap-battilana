@@ -9,8 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-//@Table(name = "OSPP", schema = "B1H_BATT_PRUCOM0726")
-@Table(name = "OSPP", schema = "B1H_BATT_PROD2")
+@Table(name = "OSPP", schema = "B1H_BATT_PRUCOM0726")
+//@Table(name = "OSPP", schema = "B1H_BATT_PROD2")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

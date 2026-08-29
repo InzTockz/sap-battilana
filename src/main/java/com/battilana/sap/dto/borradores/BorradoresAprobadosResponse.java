@@ -8,6 +8,7 @@ public record BorradoresAprobadosResponse (
         LocalDate docDate,
         String cardCode,
         String cardName,
+//        String docCur,
         Double docTotal,
         Double docTotalFc,
         String comments,
