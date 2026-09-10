@@ -9,8 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-    @Table(name = "OITM", schema = "B1H_BATT_PRUCOM0726")
-//@Table(name = "OITM", schema = "B1H_BATT_PROD2")
+@Table(name = "OITM")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -26,7 +25,7 @@ public class Articulos {
     @Column(name = "\"ItmsGrpCod\"")
     private String itmsGrpCod;
 
-    @Column(name ="\"InvntryUom\"")
+    @Column(name = "\"InvntryUom\"")
     private String invtryUom;
 
     @Column(name = "\"U_SYP_PRESENTACION\"")

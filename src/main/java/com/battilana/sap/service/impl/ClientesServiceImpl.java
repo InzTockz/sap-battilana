@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,13 @@ public class ClientesServiceImpl implements ClientesService {
 
     @Override
     public List<Cliente> findClientesPorVendedorYCardName(Integer idVendedor, String cardName) {
+
+        int currentYear = LocalDate.now().getYear() + 1;
+        int pastYear = currentYear - 3;
+
         Pageable pageable = PageRequest.of(0, 20);
-        return this.clienteRepository.findClientesPorVendedorYCliente(idVendedor, cardName, pageable);
+        return this.clienteRepository.findClientesPorVendedorYCliente(idVendedor, cardName,
+                pastYear, currentYear, pageable);
     }
 
     @Override

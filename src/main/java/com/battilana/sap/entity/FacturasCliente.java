@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "OINV", schema = "B1H_BATT_PRUCOM0726")
-//@Table(name = "OINV", schema = "B1H_BATT_PROD2")
+@Table(name = "OINV")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -27,6 +26,12 @@ public class FacturasCliente {
 
     @Column(name = "\"DocNum\"")
     private Integer docNum;
+
+    @Column(name = "\"SlpCode\"")
+    private Integer slpCode;
+
+    @Column(name ="\"CreateDate\"")
+    private LocalDate createDate;
 
     @Column(name = "\"DocDate\"")
     private LocalDate docDate;

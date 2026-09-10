@@ -25,13 +25,25 @@ public interface ClienteRepository extends JpaRepository<Cliente, String> {
             "ORDER BY C.slpCode ASC")
     List<Cliente> findClientesPorIdVendedor(@Param("idVendedor") Integer idVendedor);
 
-    @Query("SELECT C " +
-            "FROM Cliente C " +
-            "WHERE C.cardCode LIKE 'C%' AND C.frozenFor='N' " +
-            "AND C.slpCode =:idVendedor " +
+    //    @Query("SELECT C " +
+//            "FROM Cliente C " +
+//            "WHERE C.cardCode LIKE 'C%' AND C.frozenFor='N' " +
+//            "AND C.slpCode =:idVendedor " +
+//            "AND LOWER(C.cardName) LIKE LOWER(CONCAT('%', :cardName, '%')) " +
+//            "ORDER BY C.slpCode ASC")
+    @Query("SELECT DISTINCT C " +
+            "FROM FacturasCliente FC " +
+            "INNER JOIN Cliente C ON FC.cardCode = C.cardCode " +
+            "WHERE FC.slpCode=:idVendedor " +
+            "AND C.frozenFor='N' " +
+            "AND YEAR(FC.createDate) BETWEEN :pastYear AND :currentYear " +
             "AND LOWER(C.cardName) LIKE LOWER(CONCAT('%', :cardName, '%')) " +
-            "ORDER BY C.slpCode ASC")
-    List<Cliente> findClientesPorVendedorYCliente(@Param("idVendedor") Integer idVendedor, @Param("cardName") String cardName, Pageable pageable);
+            "ORDER BY C.cardName ASC")
+    List<Cliente> findClientesPorVendedorYCliente(@Param("idVendedor") Integer idVendedor,
+                                                  @Param("cardName") String cardName,
+                                                  @Param("pastYear") Integer pastYear,
+                                                  @Param("currentYear") Integer currentYear,
+                                                  Pageable pageable);
 
     @Query("SELECT C " +
             "FROM Cliente C " +
