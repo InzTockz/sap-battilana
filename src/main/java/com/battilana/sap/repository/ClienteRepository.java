@@ -31,16 +31,33 @@ public interface ClienteRepository extends JpaRepository<Cliente, String> {
 //            "AND C.slpCode =:idVendedor " +
 //            "AND LOWER(C.cardName) LIKE LOWER(CONCAT('%', :cardName, '%')) " +
 //            "ORDER BY C.slpCode ASC")
-    @Query("SELECT DISTINCT C " +
-            "FROM FacturasCliente FC " +
-            "INNER JOIN Cliente C ON FC.cardCode = C.cardCode " +
-            "WHERE FC.slpCode=:idVendedor " +
-            "AND C.frozenFor='N' " +
-            "AND YEAR(FC.createDate) BETWEEN :pastYear AND :currentYear " +
-            "AND LOWER(C.cardName) LIKE LOWER(CONCAT('%', :cardName, '%')) " +
-            "ORDER BY C.cardName ASC")
+//    @Query("SELECT DISTINCT C " +
+//            "FROM FacturasCliente FC " +
+//            "INNER JOIN Cliente C ON FC.cardCode = C.cardCode " +
+//            "WHERE FC.slpCode=:idVendedor " +
+//            "AND C.frozenFor='N' " +
+//            "AND YEAR(FC.createDate) BETWEEN :pastYear AND :currentYear " +
+//            "AND LOWER(C.cardName) LIKE LOWER(CONCAT('%', :cardName, '%')) " +
+//            "ORDER BY C.cardName ASC")
+    @Query(value = "SELECT DISTINCT * " +
+            "FROM (" +
+            "SELECT DISTINCT T2.\"CardCode\", T2.\"CardName\", T2.\"E_Mail\", T2.\"LicTradNum\", " +
+            "T2.\"CreditLine\", T2.\"GroupNum\", T2.\"frozenFor\", T2.\"ListNum\", T2.\"SlpCode\" " +
+            "FROM B1H_BATT_PROD2.\"OINV\" T1 " +
+            "INNER JOIN B1H_BATT_PROD2.\"OCRD\" T2 ON T1.\"CardCode\" = T2.\"CardCode\" " +
+            "WHERE T1.\"SlpCode\" = :idVendedor " +
+            "AND T2.\"frozenFor\" = 'N' " +
+            "AND YEAR(T1.\"CreateDate\") BETWEEN :pastYear AND :currentYear " +
+            "UNION ALL " +
+            "SELECT \"CardCode\", \"CardName\", \"E_Mail\", \"LicTradNum\", \"CreditLine\", " +
+            "\"GroupNum\", \"frozenFor\", \"ListNum\", \"SlpCode\" " +
+            "FROM B1H_BATT_PROD2.\"OCRD\" " +
+            "WHERE \"SlpCode\" = :idVendedor " +
+            "AND \"frozenFor\" = 'N' " +
+            ") AS X " +
+            "WHERE LOWER(X.\"CardName\") LIKE LOWER('%' || :cardNameDigitado || '%')", nativeQuery = true)
     List<Cliente> findClientesPorVendedorYCliente(@Param("idVendedor") Integer idVendedor,
-                                                  @Param("cardName") String cardName,
+                                                  @Param("cardNameDigitado") String cardName,
                                                   @Param("pastYear") Integer pastYear,
                                                   @Param("currentYear") Integer currentYear,
                                                   Pageable pageable);
