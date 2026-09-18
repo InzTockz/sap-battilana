@@ -1,9 +1,21 @@
-FROM eclipse-temurin:21-jdk
+#1.
+FROM maven:3.9-eclipse-temurin-21 AS build
 
-ARG JAR_FILE=target/sap-0.0.1-SNAPSHOT.jar
+WORKDIR /app
 
-COPY ${JAR_FILE} sap_battilana.jar
+COPY pom.xml .
+RUN mvn dependency:go-offiline -B
 
-EXPOSE 8080
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+#2.
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar sap_battilana.jar
+
+EXPOSE 8082
 
 ENTRYPOINT ["java", "-jar", "sap_battilana.jar"]

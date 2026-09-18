@@ -19,6 +19,10 @@ HELP.md
 *.iml
 *.ipr
 
+#Variables
+.env
+!.env.example
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
